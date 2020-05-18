@@ -20,6 +20,6 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::get('/', 'PostController@get');
-Route::get('/{id}', 'PostController@delete');
-Route::get('/{id}', 'PostController@put');
-Route::get('/', 'PostController@post');
+Route::delete('/{id}', 'PostController@delete');
+Route::put('/{id}', 'PostController@put');
+Route::post('/', 'PostController@post');

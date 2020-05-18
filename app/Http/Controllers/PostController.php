@@ -19,7 +19,7 @@ class PostController extends Controller
 
     public function put(Request $request, $id)
     {
-        $post = Post::get($id);
+        $post = Post::find($id);
         $post->title = $request->input('title');
         $post->body = $request->input('body');
         $post->save();
