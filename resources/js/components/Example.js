@@ -1,8 +1,8 @@
-import React, { Component } from 'react';
+import React from 'react';
 import ReactDOM from 'react-dom';
 import Axios from 'axios';
 
-class Example extends Component {
+class Example extends React.Component {
 
     constructor(props){
         super(props);
@@ -17,7 +17,7 @@ class Example extends Component {
         this.getAll();
     }
     getAll(){
-        Axios.get(`http://127.0.0.1/api`)
+        Axios.get(`http://127.0.0.1:8000/api`)
         .then((res)=>{
             this.setState({
                 posts:res.data
@@ -32,30 +32,50 @@ class Example extends Component {
         })
     }
     delete(e,id){
-        Axios.delete(`http://127.0.0.1/api/${id}`)
+        Axios.delete(`http://127.0.0.1:8000/api/${id}`)
         .then((res)=>{
             this.getAll();
         })
     }
-    submit(event,id){
+    submit(event){
         event.preventDefault();
-        if(this.id ==0){
-            Axios.post(`http://127.0.0.1/api`,{title:this.state.title, body:this.state.body})
+        if(this.state.id ==0){
+            Axios.post(`http://127.0.0.1:8000/api`,{title:this.state.title, body:this.state.body})
             .then((res)=>{
                 this.getAll();
             })
         }else{
-            Axios.put(`http://127.0.0.1/api/${id}`,{title:this.state.title, body:this.state.body})
+            Axios.put(`http://127.0.0.1:8000/api/${id}`,{title:this.state.title, body:this.state.body})
             .then((res)=>{
                 this.getAll();
             })
         }
     }
-
+    titlechange(event){
+        this.setState({
+            title:event.target.value
+        })
+    }
+    bodychange(event){
+        this.setState({
+            body:event.target.value
+        })
+    }
     render(){
     return (
         <div className="container">
             <div className="row">
+                <form onSubmit={(e)=>this.submit(e)}>
+                    <div className="col s4">
+                        <input onChange={(e)=>this.state.titlechange(e)} value={this.state.title}/>
+                    </div>
+                    <div className="col s4">
+                        <input onChange={(e)=>this.state.bodychange(e)} value={this.state.body}/>
+                    </div>
+                    <div className="col s4">
+                        <button type="submit" className="waves-effect waves-light btn">Save</button>
+                    </div>
+                </form>
                 <table>
                     <tbody>
                         <tr>
